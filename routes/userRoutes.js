@@ -8,6 +8,13 @@ import {
   deleteUserProfile,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middlewares/authMiddleware.js";
+import {
+  addIpAddress,
+  updateIpAddress,
+  deleteIpAddress,
+  getIpAddress,
+} from "../controllers/userIpController.js";
+import { attendanceOut } from "../controllers/attendanceController.js";
 
 const router = express.Router();
 
@@ -40,6 +47,11 @@ router.route("/register").post(protect, admin, registerUser);
 
 router.route("/login").post(authUser);
 
+// @desc    login a user and admin
+// @route    http://localhost/8000/user/logout
+// @access  Protected
+router.route("/logout").post(protect, attendanceOut);
+
 // @desc    get user Profile
 // @route    http://localhost/8000/user/login
 // @access  Protected
@@ -48,5 +60,15 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
   .delete(protect, deleteUserProfile);
+
+// @desc     User's Ip address while
+// route    /user/ip
+// access    protected
+router.route("/ip").post(protect, addIpAddress);
+router
+  .route("/ip/:id")
+  .put(protect, updateIpAddress)
+  .delete(protect, deleteIpAddress)
+  .get(protect, getIpAddress);
 
 export default router;

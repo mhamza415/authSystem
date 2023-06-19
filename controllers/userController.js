@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import generateToken from "../utills/generateToken.js";
+import { attendanceRegister } from "./attendanceController.js";
 
 // @desc    Register a admin user
 // @access  Public
@@ -91,21 +92,32 @@ const authUser = async (req, res, next) => {
     if (!(email && password)) {
       res.status(400).send("email and password are required");
     }
+    if (!req.session.userSessionId) {
+      // @desc    check the account details are available
+      const userExists = await User.findOne({ email });
 
-    // @desc    check the account details are available
-    const userExists = await User.findOne({ email });
+      if (userExists && (await userExists.matchPassword(password))) {
+        const attendanceData = await attendanceRegister(userExists._id, req.ip);
 
-    if (userExists && (await userExists.matchPassword(password))) {
-      res.status(200).json({
-        _id: userExists._id,
-        name: userExists.name,
-        email: userExists.email,
-        isAdmin: userExists.isAdmin,
-        Token: generateToken(userExists._id),
-      });
+        // Start the session by storing the user ID in the session object
+        req.session.userSessionId = userExists._id;
+
+        res.status(200).json({
+          _id: userExists._id,
+          name: userExists.name,
+          email: userExists.email,
+          isAdmin: userExists.isAdmin,
+          Token: generateToken(userExists._id),
+          yourIp: attendanceData.ip,
+          yourLocation: attendanceData.location,
+          startTime: attendanceData.startTime,
+        });
+      } else {
+        res.status(401);
+        throw new Error("invalid credentials");
+      }
     } else {
-      res.status(401);
-      throw new Error("invalid credentials");
+      res.json("you are already logged in");
     }
   } catch (error) {
     next(error);

@@ -11,7 +11,6 @@ app.get("/", (req, res) => {
 app.use("/user", userRoutes);
 app.use("/users", usersRoutes);
 app.use("/product", productRoutes);
-
 app.use(notFound);
 app.use(errorHandler);
 
