@@ -17,6 +17,7 @@
 // };
 // export { getIp };
 import os from "os";
+import axios from "axios";
 
 const getIp = async (req, res) => {
   const networkInterfaces = os.networkInterfaces();
