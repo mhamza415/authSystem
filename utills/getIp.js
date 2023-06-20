@@ -35,7 +35,12 @@ const getIp = async (req, res) => {
 
   const HeaderIpAddress =
     req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  res.json({ ipAddress, localIP, HeaderIpAddress });
+
+  const realIpAddress =
+    req.headers["x-real-ip"] || req.connection.remoteAddress;
+
+  res.json({ ipAddress, localIP, HeaderIpAddress, realIpAddress });
 };
 
 export { getIp };
+("x-real-ip");
