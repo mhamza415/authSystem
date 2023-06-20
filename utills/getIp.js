@@ -32,6 +32,17 @@ const getIp = async (req, res) => {
       }
     });
   });
+  const interfaces = os.networkInterfaces();
+  let localMachineIp = null;
+
+  Object.values(interfaces).forEach((ifaceList) => {
+    ifaceList.forEach((iface) => {
+      if (iface.family === "IPv4" && !iface.internal) {
+        localMachineIp = iface.address;
+      }
+    });
+  });
+
   const response = await axios.get("https://api.ipify.org?format=json");
   const publicIpAddress = response.data.ip;
 
@@ -51,8 +62,8 @@ const getIp = async (req, res) => {
     realIpAddress,
     socketIp,
     publicIpAddress,
+    localMachineIp,
   });
 };
 
 export { getIp };
-("x-real-ip");
