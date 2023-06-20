@@ -31,6 +31,9 @@ const getIp = async (req, res) => {
       }
     });
   });
+  const response = await axios.get("https://api.ipify.org?format=json");
+  const publicIpAddress = response.data.ip;
+
   const localIP = req.ip;
 
   const HeaderIpAddress =
@@ -40,7 +43,14 @@ const getIp = async (req, res) => {
     req.headers["x-real-ip"] || req.connection.remoteAddress;
   const socketIp = req.socket.localAddress;
 
-  res.json({ ipAddress, localIP, HeaderIpAddress, realIpAddress, socketIp });
+  res.json({
+    ipAddress,
+    localIP,
+    HeaderIpAddress,
+    realIpAddress,
+    socketIp,
+    publicIpAddress,
+  });
 };
 
 export { getIp };
