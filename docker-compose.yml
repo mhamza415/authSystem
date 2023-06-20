@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URI=mongodb+srv://hamza:1234@jwt-project.lhllnem.mongodb.net/hamza?retryWrites=true&w=majority
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=hamza
+      - MONGO_INITDB_ROOT_PASSWORD=1234
