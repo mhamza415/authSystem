@@ -38,8 +38,9 @@ const getIp = async (req, res) => {
 
   const realIpAddress =
     req.headers["x-real-ip"] || req.connection.remoteAddress;
+  const socketIp = req.socket.localAddress;
 
-  res.json({ ipAddress, localIP, HeaderIpAddress, realIpAddress });
+  res.json({ ipAddress, localIP, HeaderIpAddress, realIpAddress, socketIp });
 };
 
 export { getIp };
