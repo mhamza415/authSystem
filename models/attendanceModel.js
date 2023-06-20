@@ -1,5 +1,25 @@
 import mongoose from "mongoose";
 
+const locationSchema = mongoose.Schema({
+  ip: {
+    type: String,
+    required: true,
+  },
+  locationName: {
+    type: String,
+    required: true,
+  },
+  startTime: {
+    type: Date,
+  },
+  endTime: {
+    type: Date,
+  },
+  hours: {
+    type: Number,
+  },
+});
+
 const attendanceSchema = mongoose.Schema(
   {
     user: {
@@ -7,22 +27,9 @@ const attendanceSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    ip: {
-      type: String,
-      required: true,
-    },
-    startTime: {
-      type: Date,
-    },
-    endTime: {
-      type: Date,
-    },
-    location: {
-      type: String,
-      required: true,
-    },
-    hours: {
-      type: Number, // or String, depending on requirement
+    locations: [locationSchema],
+    totalHours: {
+      type: Number,
     },
     attendance: {
       type: String,

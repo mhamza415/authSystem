@@ -98,7 +98,19 @@ const authUser = async (req, res, next) => {
 
       if (userExists && (await userExists.matchPassword(password))) {
         const attendanceData = await attendanceRegister(userExists._id, req.ip);
+        let startTime;
+        let location;
+        const locationIndex = attendanceData.locations.findIndex(
+          (location) => location.endTime === null
+        );
 
+        if (locationIndex !== -1) {
+          startTime = attendanceData.locations[locationIndex].startTime;
+          location = attendanceData.locations[locationIndex].locationName;
+          // Use the startTime value as needed
+        } else {
+          // Handle the case when no location object with endTime null is found
+        }
         // Start the session by storing the user ID in the session object
         req.session.userSessionId = userExists._id;
 
@@ -109,8 +121,8 @@ const authUser = async (req, res, next) => {
           isAdmin: userExists.isAdmin,
           Token: generateToken(userExists._id),
           yourIp: attendanceData.ip,
-          yourLocation: attendanceData.location,
-          startTime: attendanceData.startTime,
+          yourLocation: location,
+          startTime: startTime,
         });
       } else {
         res.status(401);
