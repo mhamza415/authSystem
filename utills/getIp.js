@@ -16,10 +16,9 @@
 //   res.send(`Your machine's IP address is: ${ipAddress}`);
 // };
 // export { getIp };
-
 import os from "os";
 
-const getIp = async () => {
+const getIp = async (req, res) => {
   const networkInterfaces = os.networkInterfaces();
   let ipAddress = null;
 
@@ -32,8 +31,8 @@ const getIp = async () => {
       }
     });
   });
-
-  return ipAddress;
+  const localIP = req.ip;
+  res.json({ ipAddress, localIP });
 };
 
 export { getIp };
