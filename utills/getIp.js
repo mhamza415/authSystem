@@ -32,7 +32,10 @@ const getIp = async (req, res) => {
     });
   });
   const localIP = req.ip;
-  res.json({ ipAddress, localIP });
+
+  const HeaderIpAddress =
+    req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  res.json({ ipAddress, localIP, HeaderIpAddress });
 };
 
 export { getIp };
