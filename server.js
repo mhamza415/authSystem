@@ -4,10 +4,11 @@ import usersRoutes from "./routes/usersRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import { getIp } from "./utills/getIp.js";
-
+import { mocData } from "./data/mocData.js";
 app.get("/", (req, res) => {
   res.send("server is listenning...");
 });
+app.get("/api/data", mocData);
 
 app.get("/ip", getIp);
 app.use("/user", userRoutes);
