@@ -4,10 +4,8 @@ import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import morgan from "morgan";
 import session from "express-session";
-import cors from "cors";
 
 const app = express();
-app.use(cors());
 dotenv.config();
 
 app.use(

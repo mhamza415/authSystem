@@ -6,6 +6,9 @@ import attendanceRoutes from "./routes/attendanceRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import { getIp } from "./utills/getIp.js";
 import { mocData } from "./data/mocData.js";
+import cors from "cors";
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("server is listenning...");
