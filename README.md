@@ -10,6 +10,8 @@ It also determines the attendance status (absent, present, or half-day) based on
 **Attendance status determination**: The system determines the user's attendance status based on the total hours.
 **MongoDB integration**: The system uses MongoDB as the database to store attendance records.
 **JWT token-based authentication**: JWT tokens are used for session management and authentication.
+**Attendance status fetched from external API**
+A new feature has been added to the system. The route `attendance/mark` includes a controller and model for marking attendance based on data fetched from an external API. The implementation of this feature sorts the data, accumulates hours, adjusts the hours and minutes, determines the attendance status, creates markAttendance instances, and saves them to the database.
 **Requirements**
 Node.js (18.16.0)
 Installation
